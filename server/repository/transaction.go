@@ -33,7 +33,7 @@ func (r *repositories) GetTransaction(ID int) (models.Transaction, error) {
 }
 
 func (r *repositories) CreateTransaction(transaction models.Transaction) (models.Transaction, error) {
-	err := r.db.Preload("Trip").Create(&transaction).Error
+	err := r.db.Preload("Trip").Preload("User").Create(&transaction).Error
 
 	return transaction, err
 }
