@@ -7,7 +7,7 @@ type CreateTransactionRequest struct {
 	Total      int    `json:"total" `
 	Status     string `json:"status"  gorm:"type: varchar(255)"`
 	// Attachment string      `json:"attachment" form:"attachment" gorm:"type: varchar(255)"`
-	TripID int         `json:"tripid" `
+	TripID int         `json:"tripid" form:"tripid"`
 	Trip   models.Trip `json:"trip" `
 	UserID int         `json:"userid" form:"userid"`
 	User   models.User `json:"user"`

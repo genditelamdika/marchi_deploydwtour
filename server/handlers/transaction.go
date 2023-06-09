@@ -52,6 +52,7 @@ func (h *handlerTransaction) GetTransaction(c echo.Context) error {
 }
 func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 	// Get image here
+	request := new(transactiondto.CreateTransactionRequest)
 	userLogin := c.Get("userLogin")
 	userID := userLogin.(jwt.MapClaims)["id"].(float64)
 	// dataFile := c.Get("dataFile").(string)
@@ -60,7 +61,6 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 	// counterqty, _ := strconv.Atoi(c.FormValue("counterqty"))
 	// total, _ := strconv.Atoi(c.FormValue("total"))
 
-	request := new(transactiondto.CreateTransactionRequest)
 	// 	Counterqty: request,
 	// 	Total:      total,
 	// 	Status:     c.FormValue("status"),

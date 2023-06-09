@@ -7,6 +7,6 @@ type Transaction struct {
 	Status     string `json:"status" form:"status" gorm:"type:varchar(255)"`
 	TripID     int    `json:"tripid" form:"tripid" `
 	Trip       Trip   `json:"trip" `
-	UserID     int    `json:"userid"`
+	UserID     int    `json:"userid" form:"userid"`
 	User       User   `json:"user"`
 }
