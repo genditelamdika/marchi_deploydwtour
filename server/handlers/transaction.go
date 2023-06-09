@@ -53,6 +53,9 @@ func (h *handlerTransaction) GetTransaction(c echo.Context) error {
 func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 	// Get image here
 	request := new(transactiondto.CreateTransactionRequest)
+	if err := c.Bind(request); err != nil {
+		return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
+	}
 	userLogin := c.Get("userLogin")
 	userID := userLogin.(jwt.MapClaims)["id"].(float64)
 	// dataFile := c.Get("dataFile").(string)
