@@ -40,17 +40,18 @@ func (h *handlerTransaction) FindTransactions(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: transactions})
 }
-func (h *handlerTransaction) GetTransaction(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
 
-	transaction, err := h.TransactionRepository.GetTransaction(id)
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
-	}
-	// transaction.Attachment = path_file + transaction.Attachment
+// func (h *handlerTransaction) GetTransaction(c echo.Context) error {
+// 	id, _ := strconv.Atoi(c.Param("id"))
 
-	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: transaction})
-}
+// 	transaction, err := h.TransactionRepository.GetTransaction(id)
+// 	if err != nil {
+// 		return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
+// 	}
+// 	// transaction.Attachment = path_file + transaction.Attachment
+
+//		return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: transaction})
+//	}
 func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 	// Get image here
 	request := new(transactiondto.CreateTransactionRequest)

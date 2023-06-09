@@ -16,7 +16,7 @@ func TransactionRoutes(e *echo.Group) {
 	h := handlers.HandlerTransaction(transactionRepository, TripRepository, UserRepository)
 
 	e.GET("/transactions", h.FindTransactions)
-	e.GET("/transaction/:id", h.GetTransaction)
+	// e.GET("/transaction/:id", h.GetTransaction)
 	e.POST("/transaction", middleware.Auth(h.CreateTransaction))
 	// e.PATCH("/transaction/:id", h.UpdateTransaction)
 	e.POST("/notification", h.Notification)
