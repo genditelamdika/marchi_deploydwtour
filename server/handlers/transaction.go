@@ -98,6 +98,7 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 		// Attachment: request.Attachment,
 		TripID: request.TripID,
 		UserID: int(userID),
+		User:   request.User,
 	}
 
 	dataTransactions, err := h.TransactionRepository.CreateTransaction(transaction)
@@ -292,3 +293,11 @@ func TripConvertResponse(c models.Trip) models.Trip {
 		Image:          c.Image,
 	}
 }
+
+// func UserResponse(c models.User) models.User {
+// 	return models.User{
+// 		ID: c.ID,
+// 		Name: c.Name,
+
+// 	}
+// }
