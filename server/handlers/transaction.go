@@ -144,6 +144,7 @@ func (h *handlerTransaction) Notification(c echo.Context) error {
 	orderId := notificationPayload["order_id"].(string)
 
 	order_id, _ := strconv.Atoi(orderId)
+	transaction, _ := h.TransactionRepository.GetTransaction(order_id)
 
 	fmt.Print("ini payloadnya", notificationPayload)
 
@@ -154,10 +155,12 @@ func (h *handlerTransaction) Notification(c echo.Context) error {
 			h.TransactionRepository.UpdateTransaction("pending", order_id)
 		} else if fraudStatus == "accept" {
 			// TODO set transaction status on your database to 'success'
+			SendMail("success", transaction)
 			h.TransactionRepository.UpdateTransaction("success", order_id)
 		}
 	} else if transactionStatus == "settlement" {
 		// TODO set transaction status on your databaase to 'success'
+		SendMail("success", transaction)
 		h.TransactionRepository.UpdateTransaction("success", order_id)
 	} else if transactionStatus == "deny" {
 		// TODO you can ignore 'deny', because most of the time it allows payment retries
