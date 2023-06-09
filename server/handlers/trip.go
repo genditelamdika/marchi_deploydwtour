@@ -1,14 +1,18 @@
 package handlers
 
 import (
+	"context"
 	"fmt"
 	dto "mytask/dto/result"
 	tripdto "mytask/dto/trip"
 	"mytask/models"
 	repositories "mytask/repository"
 	"net/http"
+	"os"
 	"strconv"
 
+	"github.com/cloudinary/cloudinary-go"
+	"github.com/cloudinary/cloudinary-go/api/uploader"
 	"github.com/go-playground/validator"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo/v4"
@@ -85,20 +89,20 @@ func (h *HandlerTrip) CreateTrip(c echo.Context) error {
 			return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
 		}
 
-		// var ctx = context.Background()
-		// var CLOUD_NAME = os.Getenv("CLOUD_NAME")
-		// var API_KEY = os.Getenv("API_KEY")
-		// var API_SECRET = os.Getenv("API_SECRET")
+		var ctx = context.Background()
+		var CLOUD_NAME = os.Getenv("CLOUD_NAME")
+		var API_KEY = os.Getenv("API_KEY")
+		var API_SECRET = os.Getenv("API_SECRET")
 
-		// // Add your Cloudinary credentials ...
-		// cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
+		// Add your Cloudinary credentials ...
+		cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
 
-		// // Upload file to Cloudinary ...
-		// resp, err := cld.Upload.Upload(ctx, dataFile, uploader.UploadParams{Folder: "uploads"})
+		// Upload file to Cloudinary ...
+		resp, err := cld.Upload.Upload(ctx, dataFile, uploader.UploadParams{Folder: "upload"})
 
-		// if err != nil {
-		// 	fmt.Println(err.Error())
-		// }
+		if err != nil {
+			fmt.Println(err.Error())
+		}
 
 		trip := models.Trip{
 			Title: request.Title,
@@ -113,7 +117,7 @@ func (h *HandlerTrip) CreateTrip(c echo.Context) error {
 			Price:          request.Price,
 			Quota:          request.Quota,
 			Description:    request.Description,
-			Image:          request.Image,
+			Image:          resp.SecureURL,
 		}
 
 		data, err := h.TripRepository.CreateTrip(trip)

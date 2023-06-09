@@ -38,4 +38,5 @@ func main() {
 
 	fmt.Println("Server is runnning on localhost:" + PORT)
 	e.Logger.Fatal(e.Start(":" + PORT))
+	// e.Logger.Fatal(e.Start("localhost:3000"))
 }
