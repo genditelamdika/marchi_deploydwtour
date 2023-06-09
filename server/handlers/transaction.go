@@ -89,7 +89,7 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 		}
 	}
 
-	// userRes, _ := h.userRepository.GetUser(request.UserID)
+	userRes, _ := h.userRepository.GetUser(int(userID))
 
 	transaction := models.Transaction{
 		ID:         transactionId,
@@ -99,7 +99,7 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 		// Attachment: request.Attachment,
 		TripID: request.TripID,
 		UserID: int(userID),
-		// User:   request.User,
+		User:   UserResponse(userRes),
 	}
 
 	dataTransactions, err := h.TransactionRepository.CreateTransaction(transaction)
