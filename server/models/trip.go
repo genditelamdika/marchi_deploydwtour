@@ -13,7 +13,7 @@ type Trip struct {
 	Price          int    `json:"price" gorm:"type:int"`
 	Quota          int    `json:"quota" gorm:"type:int"`
 	Description    string `json:"description" form:"description" gorm:"type:varchar(255)"`
-	Image          string `json:"image" form:"image" grom:"type:varchar(255)"`
+	Image          string `json:"image"  gorm:"type:varchar(255)"`
 }
 
 func (Trip) TableName() string {
