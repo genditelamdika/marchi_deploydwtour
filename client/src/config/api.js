@@ -2,7 +2,8 @@ import axios from "axios";
 
 // Create base URL API
 export const API = axios.create({
-  baseURL: "http://localhost:5000/api/v1/",
+  baseURL: "https://malchidewetour.up.railway.app/api/v1/",
+  // baseURL: "http://localhost:5000/api/v1/",
 });
 
 export const Countries = axios.create({

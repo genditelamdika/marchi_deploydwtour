@@ -20,14 +20,14 @@ func RepositoryTrip(db *gorm.DB) *repositories {
 
 func (r *repositories) GetDatasTrip() ([]models.Trip, error) {
 	var trips []models.Trip
-	err := r.db.Preload("Transaction").Find(&trips).Error
+	err := r.db.Find(&trips).Error
 
 	return trips, err
 }
 
 func (r *repositories) GetTrip(ID int) (models.Trip, error) {
 	var trip models.Trip
-	err := r.db.Preload("Transaction").First(&trip, ID).Error
+	err := r.db.First(&trip, ID).Error
 
 	return trip, err
 }
