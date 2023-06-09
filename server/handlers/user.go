@@ -2,7 +2,7 @@ package handlers
 
 import (
 	dto "mytask/dto/result"
-	usersdto "mytask/dto/result/user"
+	usersdto "mytask/dto/user"
 	"mytask/models"
 	repositories "mytask/repository"
 
