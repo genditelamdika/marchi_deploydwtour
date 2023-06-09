@@ -56,18 +56,18 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 	userID := userLogin.(jwt.MapClaims)["id"].(float64)
 	// dataFile := c.Get("dataFile").(string)
 
-	tripid, _ := strconv.Atoi(c.FormValue("tripid"))
-	counterqty, _ := strconv.Atoi(c.FormValue("counterqty"))
-	total, _ := strconv.Atoi(c.FormValue("total"))
+	// tripid, _ := strconv.Atoi(c.FormValue("tripid"))
+	// counterqty, _ := strconv.Atoi(c.FormValue("counterqty"))
+	// total, _ := strconv.Atoi(c.FormValue("total"))
 
-	request := transactiondto.CreateTransactionRequest{
-		Counterqty: counterqty,
-		Total:      total,
-		Status:     c.FormValue("status"),
-		// Attachment: dataFile,
-		TripID: tripid,
-		UserID: int(userID),
-	}
+	request := new(transactiondto.CreateTransactionRequest)
+	// 	Counterqty: request,
+	// 	Total:      total,
+	// 	Status:     c.FormValue("status"),
+	// 	// Attachment: dataFile,
+	// 	TripID: tripid,
+	// 	UserID: int(userID),
+	// }
 
 	validation := validator.New()
 	err := validation.Struct(request)
@@ -95,7 +95,7 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 		// Attachment: request.Attachment,
 		TripID: request.TripID,
 		Trip:   TripConvertResponse(tripsResponse),
-		UserID: request.UserID,
+		UserID: int(userID),
 	}
 
 	dataTransactions, err := h.TransactionRepository.CreateTransaction(transaction)

@@ -81,12 +81,13 @@ const Detail = () => {
     status: "waiting payment",
     tripid: parseInt(id),
   });
-
+  console.log(state, "ini state");
   useEffect(() => {
     setForm({
       ...form,
       total: total,
       counterqty: quantity,
+      tripid: selectedTour?.id,
     });
   }, [total, quantity]);
 
@@ -106,8 +107,8 @@ const Detail = () => {
         counterqty: quantity,
         total: total,
         // status: form.status,
-        tripid: selectedTour?.id,
-        // userid:state.user.id
+        tripid: parseInt(selectedTour?.id),
+        // userid: state.user.id,
       };
 
       const body = JSON.stringify(data);
