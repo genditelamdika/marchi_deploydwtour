@@ -104,9 +104,9 @@ const Detail = () => {
 
       const data = {
         counterqty: quantity,
-        total: form.total,
+        total: total,
         // status: form.status,
-        tripid: id,
+        tripid: selectedTour?.id,
         // userid:state.user.id
       };
 

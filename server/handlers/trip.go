@@ -228,7 +228,7 @@ func (h *HandlerTrip) DeleteTrip(c echo.Context) error {
 
 func TripConvert(trip models.Trip) tripdto.TripResponse {
 	return tripdto.TripResponse{
-
+		Id:             trip.ID,
 		Title:          trip.Title,
 		Country:        trip.Country,
 		Accomodation:   trip.Accomodation,

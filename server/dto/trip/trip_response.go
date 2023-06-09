@@ -1,6 +1,7 @@
 package tripdto
 
 type TripResponse struct {
+	Id    int    `json:"id"`
 	Title string `json:"title" form:"title" grom:"type: varchar(255)"`
 
 	Country        string `json:"country" form:"country" grom:"type: varchar(255)"`
