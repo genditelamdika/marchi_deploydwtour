@@ -79,8 +79,8 @@ const AddTripInput = () => {
     formData.set("image", tripData.image[0], tripData.image[0].name);
     const result = postForm.mutate(formData);
 
-    // console.log(tripData.image[0], "testimage");
-    // console.log(result, "ini result dari post");
+    console.log(tripData.image[0], "testimage");
+    console.log(result, "ini result dari post");
 
     Swal.fire("Good job!", "Successs");
     navigate("/trip");
