@@ -1,8 +1,3 @@
-import { Row, Col, Modal, Carousel } from "react-bootstrap";
-import Sydney2 from "../assets/images/sydney2.jpg";
-import Sydney3 from "../assets/images/Sydney3.jpg";
-import Sydney4 from "../assets/images/sydney4.jpg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBuilding,
   faCalendar,
@@ -12,14 +7,17 @@ import {
   faSquarePlus,
   faUtensils,
 } from "@fortawesome/free-solid-svg-icons";
-import { useContext, useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useState } from "react";
+import { Carousel, Col, Modal, Row } from "react-bootstrap";
+import { useMutation } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import Datas from "../fakeData/DataDummy";
-import { getQueryData, useCustomQuery } from "../config/query";
-import { useMutation, useQueryClient } from "react-query";
-import { getTripId } from "../utils/trip";
-import { UserContext } from "../utils/context/userContext";
+import Sydney3 from "../assets/images/Sydney3.jpg";
+import Sydney2 from "../assets/images/sydney2.jpg";
+import Sydney4 from "../assets/images/sydney4.jpg";
 import { API } from "../config/api";
+import { useCustomQuery } from "../config/query";
+import { getTripId } from "../utils/trip";
 
 const Detail = () => {
   const { id } = useParams();
@@ -35,7 +33,7 @@ const Detail = () => {
   const total = selectedTour?.price * quantity;
 
   const navigate = useNavigate();
-  const [selected, setSelectedTour] = useState(selectedTour);
+  // const [selected, setSelectedTour] = useState(selectedTour);
   const increaseQuantity = () => {
     setQuantity(quantity + 1);
   };
@@ -45,6 +43,7 @@ const Detail = () => {
     }
   };
   console.log();
+
   // var currentDate = new Date();
 
   //   var options = { weekday: "long" };
@@ -74,25 +73,6 @@ const Detail = () => {
     setCarouselIndex(i);
   };
 
-  const [state, dispatch] = useContext(UserContext);
-  const [form, setForm] = useState({
-    total: total,
-    counterqty: quantity,
-    status: "waiting payment",
-    tripid: parseInt(id),
-  });
-  console.log(state, "ini state");
-  useEffect(() => {
-    setForm({
-      ...form,
-      total: total,
-      counterqty: quantity,
-      tripid: selectedTour?.id,
-    });
-  }, [total, quantity]);
-
-  console.log(form, "ini form");
-
   const handleBookNow = useMutation(async (e) => {
     try {
       e.preventDefault();
@@ -107,7 +87,7 @@ const Detail = () => {
         counterqty: quantity,
         total: total,
         // status: form.status,
-        tripid: parseInt(selectedTour?.id),
+        tripid: selectedTour?.id,
         // userid: state.user.id,
       };
 
@@ -174,7 +154,7 @@ const Detail = () => {
   return (
     <div className="d-flex flex-column styleDetail">
       <h1 style={{ fontWeight: "900" }}>{selectedTour?.title}</h1>
-      <h3 style={{ fontWeight: "800" }}>{selectedTour?.country?.name}</h3>
+      <h3 style={{ fontWeight: "800" }}>{selectedTour?.country}</h3>
       <div className="d-flex flex-column justify-content-center align-items-center mt-5">
         <Row
           style={{

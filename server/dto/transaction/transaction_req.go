@@ -10,6 +10,7 @@ type CreateTransactionRequest struct {
 	TripID int         `json:"tripid" form:"tripid"`
 	Trip   models.Trip `json:"trip" `
 	UserID int         `json:"userid" form:"userid"`
+	User   models.User `json:"user"`
 }
 
 type UpdateTransactionRequest struct {
@@ -20,5 +21,6 @@ type UpdateTransactionRequest struct {
 	TripID int         `json:"tripid" form:"tripid"`
 	Trip   models.Trip `json:"trip" form:"trip" `
 	UserID int         `json:"userid" form:"userid"`
+	User   models.User `json:"user"`
 	// Category    models.Category `json:"category" form:"category" validate:"required"
 }

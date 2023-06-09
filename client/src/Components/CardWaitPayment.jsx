@@ -85,7 +85,7 @@ const CardWaitPayment = () => {
                   marginBottom: "16px",
                 }}
               >
-                {Datas?.country?.name}
+                {Datas?.country}
               </p>
               <button
                 style={{

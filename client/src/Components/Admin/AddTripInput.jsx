@@ -1,14 +1,14 @@
-import { Container, Form, FormControl } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Container, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
+import Swal from "sweetalert2";
 import { useCustomMutation, useCustomQuery } from "../../config/query";
 import { addTrip, addcountry } from "../../utils/admin";
-import Swal from "sweetalert2";
-import Select from "react-select";
 const AddTripInput = () => {
   const navigate = useNavigate();
   const [countries, setCountries] = useState();
-  const addTripMutation = useCustomMutation("addTrip", addTrip);
+  // const addTripMutation = useCustomMutation("addTrip", addTrip);
   const [tripData, setTripData] = useState({
     title: "",
     country: "",
