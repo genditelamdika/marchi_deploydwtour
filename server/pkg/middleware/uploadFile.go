@@ -3,7 +3,10 @@ package middleware
 import (
 	"io"
 	"io/ioutil"
+	dto "mytask/dto/result"
 	"net/http"
+	"path/filepath"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -17,21 +20,21 @@ func UploadFile(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 
 		// handle extensi filename
-		// ext := filepath.Ext(file.Filename)
-		// allowedExts := []string{".png", ".jpg", ".jpeg"} // Ekstensi yang diperbolehkan
+		ext := filepath.Ext(file.Filename)
+		allowedExts := []string{".png", ".jpg", ".jpeg"} // Ekstensi yang diperbolehkan
 
-		// // check valid extensi
-		// validExt := false
-		// for _, allowedExt := range allowedExts {
-		// 	if strings.ToLower(ext) == allowedExt {
-		// 		validExt = true
-		// 		break
-		// 	}
-		// }
+		// check valid extensi
+		validExt := false
+		for _, allowedExt := range allowedExts {
+			if strings.ToLower(ext) == allowedExt {
+				validExt = true
+				break
+			}
+		}
 
-		// if !validExt {
-		// 	return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: "Invalid file extension"})
-		// }
+		if !validExt {
+			return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: "Invalid file extension"})
+		}
 		//open file
 		src, err := file.Open()
 		if err != nil {
@@ -39,7 +42,7 @@ func UploadFile(next echo.HandlerFunc) echo.HandlerFunc {
 		}
 		defer src.Close()
 		//Membuat file sementara dengan nama unik di direktori "uploads" menggunakan ioutil.TempFile(). Nama file akan dimulai dengan "image-" dan diikuti dengan karakter acak.
-		tempFile, err := ioutil.TempFile("uploads", "image-*.png")
+		tempFile, err := ioutil.TempFile("uploads", "image-*"+ext)
 
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, err)
