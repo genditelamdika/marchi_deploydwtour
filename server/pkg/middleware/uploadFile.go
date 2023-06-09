@@ -1,11 +1,9 @@
 package middleware
 
 import (
-	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
-	"strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -54,10 +52,10 @@ func UploadFile(next echo.HandlerFunc) echo.HandlerFunc {
 
 		data := tempFile.Name()
 
-		update := strings.Split(data, "\\")[1]
-		fmt.Println(update)
+		// update := strings.Split(data, "\\")[1]
+		// fmt.Println(update)
 
-		c.Set("dataFile", update)
+		c.Set("dataFile", data)
 		return next(c)
 	}
 }

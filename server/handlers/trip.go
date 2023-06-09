@@ -35,9 +35,9 @@ func (h *HandlerTrip) GetDatasTrip(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
 	}
 
-	for i, p := range trips {
-		trips[i].Image = path_file + p.Image
-	}
+	// for i, p := range trips {
+	// 	trips[i].Image = path_file + p.Image
+	// }
 
 	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: trips})
 }
@@ -50,7 +50,7 @@ func (h *HandlerTrip) GetTrip(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
 	}
 
-	trip.Image = path_file + trip.Image
+	// trip.Image = path_file + trip.Image
 
 	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: TripConvert(trip)})
 }
@@ -61,6 +61,7 @@ func (h *HandlerTrip) CreateTrip(c echo.Context) error {
 	fmt.Println(role, "'ini role'")
 	if role == "admin" {
 		dataFile := c.Get("dataFile").(string)
+		fmt.Println("this is data file", dataFile)
 
 		day, _ := strconv.Atoi(c.FormValue("day"))
 		price, _ := strconv.Atoi(c.FormValue("price"))
