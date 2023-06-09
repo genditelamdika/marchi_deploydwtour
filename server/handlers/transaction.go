@@ -99,7 +99,7 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 		// Attachment: request.Attachment,
 		TripID: request.TripID,
 		UserID: int(userID),
-		User:   request.User,
+		// User:   request.User,
 	}
 
 	dataTransactions, err := h.TransactionRepository.CreateTransaction(transaction)
