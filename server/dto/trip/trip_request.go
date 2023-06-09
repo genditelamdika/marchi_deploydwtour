@@ -15,7 +15,7 @@ type CreateTripRequest struct {
 	Price          int    `json:"price" form:"price" gorm:"type: int"`
 	Quota          int    `json:"quota" form:"quota" gorm:"type: int"`
 	Description    string `json:"description" form:"description" gorm:"type: varchar(255)"`
-	Image          string `json:"image" form:"image" gorm:"type: varchar(255)"`
+	Image          string `json:"image" form:"image"`
 }
 
 type UpdateTripRequest struct {
