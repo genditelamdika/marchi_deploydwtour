@@ -6,11 +6,15 @@ import (
 	"mytask/models"
 	repositories "mytask/repository"
 	"net/http"
+	"os"
 	"strconv"
+	"time"
 
 	"github.com/go-playground/validator"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo/v4"
+	"github.com/midtrans/midtrans-go"
+	"github.com/midtrans/midtrans-go/snap"
 )
 
 type handlerTransaction struct {
@@ -68,9 +72,20 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
 	}
 
+	var transactionIsMatch = false
+	var transactionId int
+	for !transactionIsMatch {
+		transactionId = int(time.Now().Unix())
+		transactionData, _ := h.TransactionRepository.GetTransaction(transactionId)
+		if transactionData.ID == 0 {
+			transactionIsMatch = true
+		}
+	}
+
 	tripsResponse, _ := h.TripRepository.GetTrip(request.TripID)
 
 	transaction := models.Transaction{
+		ID:         transactionId,
 		Counterqty: request.Counterqty,
 		Total:      request.Total,
 		Status:     request.Status,
@@ -80,61 +95,83 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 		UserID: request.UserID,
 	}
 
-	data, err := h.TransactionRepository.CreateTransaction(transaction)
+	dataTransactions, err := h.TransactionRepository.CreateTransaction(transaction)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()})
 	}
-	transaction, _ = h.TransactionRepository.GetTransaction(transaction.ID)
+	// transaction, _ = h.TransactionRepository.GetTransaction(transaction.ID)
 
-	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: data})
+	var s = snap.Client{}
+	s.New(os.Getenv("SERVER_KEY"), midtrans.Sandbox)
+
+	// 2. Initiate Snap request param
+	req := &snap.Request{
+		TransactionDetails: midtrans.TransactionDetails{
+			OrderID:  strconv.Itoa(dataTransactions.ID),
+			GrossAmt: int64(dataTransactions.Total),
+		},
+		CreditCard: &snap.CreditCardDetails{
+			Secure: true,
+		},
+		CustomerDetail: &midtrans.CustomerDetails{
+			FName: dataTransactions.User.Name,
+			Email: dataTransactions.User.Email,
+		},
+	}
+
+	//3. Execute request create Snap transaction to Midtrans Snap API
+	snapResp, _ := s.CreateTransaction(req)
+
+	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: snapResp})
 }
-func (h *handlerTransaction) UpdateTransaction(c echo.Context) error {
 
-	// dataFile := c.Get("dataFile").(string)
+// func (h *handlerTransaction) UpdateTransaction(c echo.Context) error {
 
-	tripid, _ := strconv.Atoi(c.FormValue("tripid"))
-	counterqty, _ := strconv.Atoi(c.FormValue("counterqty"))
-	total, _ := strconv.Atoi(c.FormValue("total"))
+// 	// dataFile := c.Get("dataFile").(string)
 
-	request := transactiondto.CreateTransactionRequest{
-		Counterqty: counterqty,
-		Total:      total,
-		Status:     c.FormValue("status"),
-		// Attachment: dataFile,
-		TripID: tripid,
-	}
+// 	tripid, _ := strconv.Atoi(c.FormValue("tripid"))
+// 	counterqty, _ := strconv.Atoi(c.FormValue("counterqty"))
+// 	total, _ := strconv.Atoi(c.FormValue("total"))
 
-	id, _ := strconv.Atoi(c.Param("id"))
+// 	request := transactiondto.CreateTransactionRequest{
+// 		Counterqty: counterqty,
+// 		Total:      total,
+// 		Status:     c.FormValue("status"),
+// 		// Attachment: dataFile,
+// 		TripID: tripid,
+// 	}
 
-	transaction, err := h.TransactionRepository.GetTransaction(id)
+// 	id, _ := strconv.Atoi(c.Param("id"))
 
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
-	}
+// 	transaction, err := h.TransactionRepository.GetTransaction(id)
 
-	if request.Counterqty != 0 {
-		transaction.Counterqty = request.Counterqty
-	}
-	if request.Total != 0 {
-		transaction.Total = request.Total
-	}
-	if request.Status != "" {
-		transaction.Status = request.Status
-	}
-	// if request.Attachment != "" {
-	// 	transaction.Attachment = request.Attachment
-	// }
-	if request.TripID != 0 {
-		transaction.TripID = request.TripID
-	}
+// 	if err != nil {
+// 		return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
+// 	}
 
-	data, err := h.TransactionRepository.UpdateTransaction(transaction, id)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()})
-	}
+// 	if request.Counterqty != 0 {
+// 		transaction.Counterqty = request.Counterqty
+// 	}
+// 	if request.Total != 0 {
+// 		transaction.Total = request.Total
+// 	}
+// 	if request.Status != "" {
+// 		transaction.Status = request.Status
+// 	}
+// 	// if request.Attachment != "" {
+// 	// 	transaction.Attachment = request.Attachment
+// 	// }
+// 	if request.TripID != 0 {
+// 		transaction.TripID = request.TripID
+// 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: data})
-}
+// 	data, err := h.TransactionRepository.UpdateTransaction(transaction, id)
+// 	if err != nil {
+// 		return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()})
+// 	}
+
+// 	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: data})
+// }
 
 func TripConvertResponse(c models.Trip) models.Trip {
 	return models.Trip{
