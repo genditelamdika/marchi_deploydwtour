@@ -11,7 +11,7 @@ import (
 
 var DB *gorm.DB
 
-func DatabaseConnection() {
+func DatabaseInit() {
 	var err error
 	// dsn := "root:@tcp(localhost:3306)/dewe?charset=utf8mb4&parseTime=True&loc=Local"
 

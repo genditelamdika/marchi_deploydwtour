@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"mytask/database"
 	"os"
 
@@ -20,7 +21,7 @@ func main() {
 
 	e := echo.New()
 
-	mysql.DatabaseConnection()
+	mysql.DatabaseInit()
 	database.RunMigration()
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
@@ -35,5 +36,6 @@ func main() {
 
 	PORT := os.Getenv("PORT")
 
+	fmt.Println("Server is runnning on localhost:" + PORT)
 	e.Logger.Fatal(e.Start(":" + PORT))
 }
