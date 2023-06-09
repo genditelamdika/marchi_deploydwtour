@@ -85,7 +85,7 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 		}
 	}
 
-	tripsResponse, _ := h.TripRepository.GetTrip(request.TripID)
+	// tripsResponse, _ := h.TripRepository.GetTrip(request.TripID)
 
 	transaction := models.Transaction{
 		ID:         transactionId,
@@ -94,7 +94,6 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 		Status:     "Pending",
 		// Attachment: request.Attachment,
 		TripID: request.TripID,
-		Trip:   TripConvertResponse(tripsResponse),
 		UserID: int(userID),
 	}
 
