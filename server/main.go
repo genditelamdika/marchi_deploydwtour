@@ -2,6 +2,7 @@ package main
 
 import (
 	"mytask/database"
+	"os"
 
 	"mytask/pkg/mysql"
 	"mytask/routes"
@@ -32,5 +33,7 @@ func main() {
 
 	routes.RouteInit(e.Group("/api/v1"))
 
-	e.Logger.Fatal(e.Start("localhost:5000"))
+	PORT := os.Getenv("PORT")
+
+	e.Logger.Fatal(e.Start(":" + PORT))
 }
