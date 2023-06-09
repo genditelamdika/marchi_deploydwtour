@@ -11,8 +11,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/cloudinary/cloudinary-go"
-	"github.com/cloudinary/cloudinary-go/api/uploader"
+	"github.com/cloudinary/cloudinary-go/v2"
+	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
 	"github.com/go-playground/validator"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo/v4"
@@ -125,7 +125,7 @@ func (h *HandlerTrip) CreateTrip(c echo.Context) error {
 			return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()})
 		}
 
-		return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: TripConvert(data)})
+		return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: data})
 	}
 	return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: "u re not admin"})
 }
