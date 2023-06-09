@@ -23,10 +23,11 @@ import (
 type handlerTransaction struct {
 	TransactionRepository repositories.TransactionRepository
 	TripRepository        repositories.TripRepository
+	userRepository        repositories.UseRepository
 }
 
-func HandlerTransaction(TransactionRepository repositories.TransactionRepository, TripRepository repositories.TripRepository) *handlerTransaction {
-	return &handlerTransaction{TransactionRepository, TripRepository}
+func HandlerTransaction(TransactionRepository repositories.TransactionRepository, TripRepository repositories.TripRepository, userRepository repositories.UseRepository) *handlerTransaction {
+	return &handlerTransaction{TransactionRepository, TripRepository, userRepository}
 }
 func (h *handlerTransaction) FindTransactions(c echo.Context) error {
 	transactions, err := h.TransactionRepository.FindTransactions()
@@ -88,7 +89,7 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 		}
 	}
 
-	// tripsResponse, _ := h.TripRepository.GetTrip(request.TripID)
+	userRes, _ := h.userRepository.GetUser(request.UserID)
 
 	transaction := models.Transaction{
 		ID:         transactionId,
@@ -98,7 +99,7 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 		// Attachment: request.Attachment,
 		TripID: request.TripID,
 		UserID: int(userID),
-		User:   request.User,
+		User:   UserResponse(userRes),
 	}
 
 	dataTransactions, err := h.TransactionRepository.CreateTransaction(transaction)
@@ -294,10 +295,14 @@ func TripConvertResponse(c models.Trip) models.Trip {
 	}
 }
 
-// func UserResponse(c models.User) models.User {
-// 	return models.User{
-// 		ID: c.ID,
-// 		Name: c.Name,
-
-// 	}
-// }
+func UserResponse(c models.User) models.User {
+	return models.User{
+		ID:      c.ID,
+		Name:    c.Name,
+		Email:   c.Email,
+		Phone:   c.Phone,
+		Address: c.Address,
+		Gender:  c.Gender,
+		Image:   c.Image,
+	}
+}
