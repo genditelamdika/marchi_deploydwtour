@@ -15,7 +15,3 @@ type Trip struct {
 	Description    string `json:"description" form:"description" gorm:"type: varchar(255)"`
 	Image          string `json:"image" form:"image" grom:"type: varchar(255)"`
 }
-
-func (Trip) TableName() string {
-	return "trip"
-}
