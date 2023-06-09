@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"io"
 	"io/ioutil"
 	dto "mytask/dto/result"
@@ -54,10 +55,10 @@ func UploadFile(next echo.HandlerFunc) echo.HandlerFunc {
 
 		data := tempFile.Name()
 
-		// update := strings.Split(data, "\\")[1]
-		// fmt.Println(update)
+		update := strings.Split(data, "\\")[1]
+		fmt.Println(update)
 
-		c.Set("dataFile", data)
+		c.Set("dataFile", update)
 		return next(c)
 	}
 }
