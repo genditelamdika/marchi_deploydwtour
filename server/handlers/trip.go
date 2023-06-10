@@ -132,23 +132,18 @@ func (h *HandlerTrip) CreateTrip(c echo.Context) error {
 
 func (h *HandlerTrip) DeleteTrip(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	userLogin := c.Get("userLogin")
-	role := userLogin.(jwt.MapClaims)["role"].(string)
-	fmt.Println(role, "'ini role'")
-	if role == "admin" {
-		trip, err := h.TripRepository.GetTrip(id)
-		if err != nil {
-			return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
-		}
 
-		data, err := h.TripRepository.DeleteTrip(trip)
-		if err != nil {
-			return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()})
-		}
-
-		return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: data})
+	trip, err := h.TripRepository.GetTrip(id)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
 	}
-	return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: "u re not admin"})
+
+	data, err := h.TripRepository.DeleteTrip(trip)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: data})
 }
 
 // func (h *HandlerTrip) UpdateTrip(c echo.Context) error {
