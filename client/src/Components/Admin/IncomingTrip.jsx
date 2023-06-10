@@ -60,7 +60,9 @@ const IncomingTripContent = () => {
                       src={tour?.image}
                       className="styleImage"
                     />
-                    <Card.Body style={{ fontFamily: "Avenir" }}>
+                    <Card.Body
+                      style={{ fontFamily: "Avenir", position: "relative" }}
+                    >
                       <Card.Title>
                         {" "}
                         <Link
@@ -69,6 +71,7 @@ const IncomingTripContent = () => {
                             textDecoration: "none",
                             color: "#000",
                           }}
+                          className="linkAdmin"
                         >
                           {tour?.title}
                         </Link>{" "}
@@ -81,12 +84,25 @@ const IncomingTripContent = () => {
                             fontWeight: "900",
                             fontSize: "18px",
                             color: "#ffaf00",
+                            bottom: "10px",
+                            left: "15px",
+                            position: "absolute",
                           }}
                         >
-                          {tour.price}
+                          <span className="me-2">IDR</span>
+                          {tour.price.toLocaleString("en-ID")}
                         </Card.Text>
-                        <Card.Text className="mt-3">
-                          {tour?.country.name}
+                        <Card.Text
+                          className="mt-3"
+                          style={{
+                            bottom: "10px",
+                            right: "15px",
+                            position: "absolute",
+                            fontFamily: "arial",
+                            fontWeight: "700",
+                          }}
+                        >
+                          {tour?.country}
                         </Card.Text>
                       </div>
                     </Card.Body>

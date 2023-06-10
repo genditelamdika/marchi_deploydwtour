@@ -72,8 +72,8 @@ body {
 }
 
 .styleImage {
-  width: 328px;
-  height: 241px;
+  width: 45vb;
+  height: 200px;
   margin: 11px auto 0;
 }
 
@@ -103,20 +103,22 @@ body {
 }
 
 .Login {
-  margin: 0 2.5rem 20px;
   background-color: #ffaf00;
   border: none;
-  border-radius: 0;
+  border-radius: 2px;
   letter-spacing: 1.5px;
   size: 24px;
+  padding: 9px 20px;
+  color: #000;
+  font-weight: 800;
 }
 .Reg {
-  margin: -13px 3rem 30px;
   background-color: #ffaf00;
   border: none;
-  border-radius: 0;
+  border-radius: 2px;
   letter-spacing: 1.5px;
   size: 24px;
+  padding: 9px 20px;
 }
 .blurText {
   font-family: "Avenir";
@@ -265,4 +267,9 @@ body {
 .orange {
   color: rgb(255, 101, 45) !important;
   font-weight: 800;
+}
+
+.linkAdmin:hover {
+  font-weight: 600;
+  text-decoration: underline !important;
 }

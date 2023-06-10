@@ -94,9 +94,11 @@ function Login({ show, handleCloseLogin }) {
               onChange={OnHandlerChange}
             />
           </Form.Group>
-          <Button type="submit" className="Login">
-            Login
-          </Button>
+          <div className="d-flex justify-content-center mt-5">
+            <Button type="submit" className="Login">
+              Login
+            </Button>
+          </div>
         </Form>
       </Modal.Body>
 

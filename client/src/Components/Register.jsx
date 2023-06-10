@@ -53,6 +53,7 @@ const Register = ({ showReg, handleClose }) => {
               type="text"
               onChange={handleChange}
               autoFocus
+              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -62,6 +63,7 @@ const Register = ({ showReg, handleClose }) => {
               type="email"
               onChange={handleChange}
               autoFocus
+              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -74,20 +76,36 @@ const Register = ({ showReg, handleClose }) => {
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label className="textLabelLogin">Phone</Form.Label>
-            <Form.Control name="phone" type="text" onChange={handleChange} />
+            <Form.Control
+              name="phone"
+              type="text"
+              required
+              onChange={handleChange}
+            />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label className="textLabelLogin">Address</Form.Label>
-            <Form.Control name="address" type="text" onChange={handleChange} />
+            <Form.Control
+              name="address"
+              type="text"
+              required
+              onChange={handleChange}
+            />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label className="textLabelLogin">gender</Form.Label>
-            <Form.Control name="gender" type="text" onChange={handleChange} />
+            <Form.Label className="textLabelLogin">Gender</Form.Label>
+            <Form.Control
+              name="gender"
+              type="text"
+              required
+              onChange={handleChange}
+            />
           </Form.Group>
-
-          <Button className="Reg" type="submit">
-            Register
-          </Button>
+          <div className="d-flex justify-content-center pt-4">
+            <Button className="Reg" type="submit">
+              Register
+            </Button>
+          </div>
         </Form>
       </Modal.Body>
     </Modal>
