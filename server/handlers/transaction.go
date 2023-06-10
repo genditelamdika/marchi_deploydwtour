@@ -60,19 +60,6 @@ func (h *handlerTransaction) CreateTransaction(c echo.Context) error {
 	}
 	userLogin := c.Get("userLogin")
 	userID := userLogin.(jwt.MapClaims)["id"].(float64)
-	// dataFile := c.Get("dataFile").(string)
-
-	// tripid, _ := strconv.Atoi(c.FormValue("tripid"))
-	// counterqty, _ := strconv.Atoi(c.FormValue("counterqty"))
-	// total, _ := strconv.Atoi(c.FormValue("total"))
-
-	// 	Counterqty: request,
-	// 	Total:      total,
-	// 	Status:     c.FormValue("status"),
-	// 	// Attachment: dataFile,
-	// 	TripID: tripid,
-	// 	UserID: int(userID),
-	// }
 
 	validation := validator.New()
 	err := validation.Struct(request)
