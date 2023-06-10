@@ -11,7 +11,7 @@ type TripRepository interface {
 	GetTrip(ID int) (models.Trip, error)
 	CreateTrip(Trip models.Trip) (models.Trip, error)
 	UpdateTrip(Trip models.Trip) (models.Trip, error)
-	DeleteTrip(Trip models.Trip) (models.Trip, error)
+	DeleteTrip(ID int) (models.Trip, error)
 }
 
 func RepositoryTrip(db *gorm.DB) *repositories {
@@ -43,8 +43,9 @@ func (r *repositories) UpdateTrip(trip models.Trip) (models.Trip, error) {
 
 	return trip, err
 }
-func (r *repositories) DeleteTrip(trip models.Trip) (models.Trip, error) {
-	err := r.db.Delete(&trip).Error
+func (r *repositories) DeleteTrip(ID int) (models.Trip, error) {
+	var trip models.Trip
+	err := r.db.Delete(&trip, ID).Error
 
 	return trip, err
 }

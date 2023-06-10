@@ -2,26 +2,34 @@ import { Container, Card, Row, Col } from "react-bootstrap";
 import Data from "../../fakeData/DataDummy";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useCustomQuery } from "../../config/query";
+import { useCustomMutation, useCustomQuery } from "../../config/query";
 import { getTrip } from "../../utils/trip";
+import { deleteTrip } from "../../utils/admin";
+import Swal from "sweetalert2";
 
 const IncomingTripContent = () => {
   const navigate = useNavigate();
   const handleButtonTrip = () => {
     navigate("/AddTrip");
   };
-
   const { data, refetch } = useCustomQuery("adminTrip", getTrip);
-  if (data && data.length > 0) {
+  const deleteTripMutation = useCustomMutation("deleteTrip", deleteTrip);
+  useEffect(() => {
     refetch();
-  }
-  // const [data, setData] = useState([]);
-  // useEffect(() => {
-  //   if ({ tripDatas }) {
-  //     setData([tripDatas]);
-  //   }
-  //   console.log(tripDatas.image);
-  // }, []);
+  }, [deleteTripMutation.isSuccess]);
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteTripMutation.mutateAsync(id);
+      Swal.fire({
+        icon: "success",
+        title: "Trip Deleted",
+        text: "The trip has been successfully deleted.",
+      });
+    } catch (error) {
+      console.log(error, "error delete");
+    }
+  };
 
   return (
     <>
@@ -78,13 +86,12 @@ const IncomingTripContent = () => {
                       </Card.Title>
                       <div className="d-flex justify-content-between">
                         <Card.Text
-                          className="mt-3"
                           style={{
                             fontFamily: "Avenir",
                             fontWeight: "900",
                             fontSize: "18px",
                             color: "#ffaf00",
-                            bottom: "10px",
+                            bottom: "-6px",
                             left: "15px",
                             position: "absolute",
                           }}
@@ -106,6 +113,22 @@ const IncomingTripContent = () => {
                         </Card.Text>
                       </div>
                     </Card.Body>
+                    <div>
+                      <button
+                        style={{
+                          width: "100%",
+                          border: "none",
+                          background: "#ab32f0",
+                          height: "28px",
+                          color: "whitesmoke",
+                          letterSpacing: "1.5px",
+                          fontWeight: "600",
+                        }}
+                        onClick={() => handleDelete(tour.id)}
+                      >
+                        DELETE
+                      </button>
+                    </div>
                   </Card>
                 </Col>
               );

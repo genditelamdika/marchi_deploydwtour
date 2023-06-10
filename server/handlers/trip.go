@@ -141,7 +141,7 @@ func (h *HandlerTrip) DeleteTrip(c echo.Context) error {
 			return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
 		}
 
-		data, err := h.TripRepository.DeleteTrip(trip)
+		data, err := h.TripRepository.DeleteTrip(trip.ID)
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()})
 		}

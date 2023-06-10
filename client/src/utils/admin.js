@@ -37,3 +37,17 @@ export async function transactionList() {
     throw new Error("Failed get list transactions");
   }
 }
+
+export async function deleteTrip(id) {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+    const response = await API.delete(`trip/${id}`, config);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch data");
+  }
+}
