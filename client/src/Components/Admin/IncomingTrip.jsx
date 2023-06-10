@@ -124,7 +124,7 @@ const IncomingTripContent = () => {
                           letterSpacing: "1.5px",
                           fontWeight: "600",
                         }}
-                        onClick={() => handleDelete(tour.id)}
+                        onClick={() => handleDelete(tour?.id)}
                       >
                         DELETE
                       </button>
