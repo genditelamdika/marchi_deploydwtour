@@ -27,3 +27,13 @@ export async function addcountry() {
     throw new Error("Failed to fetch data");
   }
 }
+
+export async function transactionList() {
+  try {
+    const response = await API.get("transactions");
+
+    return response.data.data;
+  } catch (error) {
+    throw new Error("Failed get list transactions");
+  }
+}

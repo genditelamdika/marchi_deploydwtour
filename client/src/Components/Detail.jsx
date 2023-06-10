@@ -44,19 +44,19 @@ const Detail = () => {
   };
   console.log();
 
-  // var currentDate = new Date();
+  var currentDate = new Date();
 
-  //   var options = { weekday: "long" };
-  // var day = currentDate.toLocaleString("en-US", options);
+  var options = { weekday: "long" };
+  var day = currentDate.toLocaleString("en-US", options);
 
-  // var date = currentDate.getDate();
+  var date = currentDate.getDate();
 
-  // var month = currentDate.toLocaleString("en-US", { month: "short" });
+  var month = currentDate.toLocaleString("en-US", { month: "short" });
 
-  // var year = currentDate.getFullYear();
+  var year = currentDate.getFullYear();
 
-  // var formattedDate =
-  //   day + ", " + ("0" + date).slice(-2) + " " + month + " " + year;
+  var formattedDate =
+    day + ", " + ("0" + date).slice(-2) + " " + month + " " + year;
 
   const [showModal, setShowModal] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
@@ -73,66 +73,71 @@ const Detail = () => {
     setCarouselIndex(i);
   };
 
-  const handleBookNow = useMutation(async (e) => {
-    try {
-      e.preventDefault();
+  // const handleBookNow = useMutation(async (e) => {
+  //   try {
+  //     e.preventDefault();
 
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
+  //     const config = {
+  //       headers: {
+  //         "Content-type": "application/json",
+  //       },
+  //     };
 
-      const data = {
-        counterqty: quantity,
-        total: total,
-        // status: form.status,
-        tripid: selectedTour?.id,
-        // userid: state.user.id,
-      };
+  //     const data = {
+  //       counterqty: quantity,
+  //       total: total,
+  //       // status: form.status,
+  //       tripid: selectedTour?.id,
+  //       // userid: state.user.id,
+  //     };
 
-      const body = JSON.stringify(data);
+  //     const body = JSON.stringify(data);
 
-      const response = await API.post("transaction", body, config);
-      console.log("transaction success :", response);
-      const token = response.data.data.token;
-      window.snap.pay(token, {
-        onSuccess: function (result) {
-          /* You may add your own implementation here */
-          console.log(result);
-          navigate("/Profile");
-        },
-        onPending: function (result) {
-          /* You may add your own implementation here */
-          console.log(result);
-          navigate("/Profile");
-        },
-        onError: function (result) {
-          /* You may add your own implementation here */
-          console.log(result);
-          navigate("/Profile");
-        },
-        onClose: function () {
-          /* You may add your own implementation here */
-          alert("you closed the popup without finishing the payment");
-        },
-      });
+  //     const response = await API.post("transaction", body, config);
+  //     console.log("transaction success :", response);
+  //     const token = response.data.data.token;
+  //     window.snap.pay(token, {
+  //       onSuccess: function (result) {
+  //         /* You may add your own implementation here */
+  //         console.log(result);
+  //         navigate("/Profile");
+  //       },
+  //       onPending: function (result) {
+  //         /* You may add your own implementation here */
+  //         console.log(result);
+  //         navigate("/Profile");
+  //       },
+  //       onError: function (result) {
+  //         /* You may add your own implementation here */
+  //         console.log(result);
+  //         navigate("/Profile");
+  //       },
+  //       onClose: function () {
+  //         /* You may add your own implementation here */
+  //         alert("you closed the popup without finishing the payment");
+  //       },
+  //     });
 
-      // code here
-    } catch (error) {
-      console.log("transaction failed : ", error);
-    }
-  });
+  //     // code here
+  //   } catch (error) {
+  //     console.log("transaction failed : ", error);
+  //   }
+  // });
 
-  // useEffect(() => {
-  //   setSelectedTour({
-  //     ...selectedTour,
-  //     quantity: quantity,
-  //     price: total,
-  //     date: formattedDate,
-  //     tripId: id,
-  //   });
-  // }, [total, quantity, formattedDate]);
+  const [selected, setSelectedTour] = useState(selectedTour);
+  const handleBookNow = () => {
+    localStorage.setItem("tourBook", JSON.stringify(selected));
+    navigate("/Waiting");
+  };
+  useEffect(() => {
+    setSelectedTour({
+      ...selectedTour,
+      quantity: quantity,
+      price: total,
+      date: formattedDate,
+      tripId: id,
+    });
+  }, [total, quantity, formattedDate]);
 
   useEffect(() => {
     //change this to the script source you want to load, for example this is snap.js sandbox env
@@ -353,7 +358,7 @@ const Detail = () => {
 
       <hr className="HorizontalLine"></hr>
       <div>
-        <button className="bookButton" onClick={(e) => handleBookNow.mutate(e)}>
+        <button className="bookButton" onClick={() => handleBookNow()}>
           BOOK NOW
         </button>
       </div>

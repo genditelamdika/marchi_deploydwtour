@@ -26,22 +26,68 @@ const CardWaitPayment = () => {
 
   const mySwal = withReactContent(Swal);
   const status = "Waiting Approve";
-  console.log(Datas);
+  console.log(Datas, "cekcek");
 
   // post data
   const postTransaction = useCustomMutation("transaction", transaction);
 
-  const handleWaitingApprove = () => {
-    const formData = new FormData();
-    formData.append("counterqty", Datas.quantity);
-    formData.append("total", Datas.price);
-    formData.append("image", Datas?.image);
-    formData.append("status", status);
-    formData.append("tripid", Datas.tripId);
-    console.log(formData.append, "ini terbaru");
-    if (formData) {
-      const result = postTransaction.mutate(formData);
-      console.log(result, "ini coba");
+  useEffect(() => {
+    //change this to the script source you want to load, for example this is snap.js sandbox env
+    const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+    //change this according to your client-key
+    const myMidtransClientKey = process.env.REACT_APP_MIDTRANS_CLIENT_KEY;
+
+    let scriptTag = document.createElement("script");
+    scriptTag.src = midtransScriptUrl;
+    // optional if you want to set script attribute
+    // for example snap.js have data-client-key attribute
+    scriptTag.setAttribute("data-client-key", myMidtransClientKey);
+
+    document.body.appendChild(scriptTag);
+    return () => {
+      document.body.removeChild(scriptTag);
+    };
+  }, []);
+
+  const handleWaitingApprove = async (e) => {
+    try {
+      e.preventDefault();
+      const data = {
+        counterqty: Datas.quantity,
+        total: Datas?.price,
+        tripid: parseInt(Datas?.tripId),
+      };
+      console.log(data, "yang mau dikirim");
+      const body = JSON.stringify(data);
+      const response = await postTransaction.mutateAsync(body);
+      if (response) {
+        console.log(response, "cek response");
+        const token = response?.token;
+        window.snap.pay(token, {
+          onSuccess: function (result) {
+            /* You may add your own implementation here */
+            console.log(result);
+            navigate("/Profile");
+            localStorage.removeItem("tourBook");
+          },
+          onPending: function (result) {
+            /* You may add your own implementation here */
+            console.log(result);
+            navigate("/Profile");
+          },
+          onError: function (result) {
+            /* You may add your own implementation here */
+            console.log(result);
+            navigate("/Profile");
+          },
+          onClose: function () {
+            /* You may add your own implementation here */
+            alert("you closed the popup without finishing the payment");
+          },
+        });
+      }
+    } catch (error) {
+      console.log("transaction failed : ", error);
     }
   };
 
@@ -395,7 +441,7 @@ const CardWaitPayment = () => {
             border: "none",
             borderRadius: "5px",
           }}
-          onClick={() => handleWaitingApprove()}
+          onClick={(e) => handleWaitingApprove(e)}
         >
           PAY
         </button>

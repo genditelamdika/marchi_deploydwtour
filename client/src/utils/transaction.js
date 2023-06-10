@@ -10,9 +10,7 @@ export async function transaction(data) {
 
     const transaction = await API.post("transaction", data, config);
     console.log("Post Success", transaction);
-    if (transaction) {
-      return transaction.data.data;
-    }
+    return transaction?.data?.data;
   } catch (error) {
     throw new error("transaction error");
   }

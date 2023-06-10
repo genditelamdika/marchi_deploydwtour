@@ -56,12 +56,6 @@ const AddTripInput = () => {
     });
   };
 
-  // const handleChangeImage = (e) => {
-  //   const file = e.target.files[0];
-  //   const imageUrl = URL.createObjectURL(file);
-  //   setImageUrl(imageUrl);
-  // };
-
   const submitAddTrip = async (e) => {
     e.preventDefault();
     const formData = new FormData();

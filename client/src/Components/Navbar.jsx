@@ -3,7 +3,7 @@ import Icon from "../assets/images/Icon.png";
 import { useContext, useEffect, useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, redirect, useNavigate } from "react-router-dom";
 import User from "../assets/images/User.png";
 import { UserContext } from "../utils/context/userContext";
 import { API, setAuthToken } from "../config/api";
@@ -25,6 +25,21 @@ function NavbarMenu() {
     });
     navigate("/");
   };
+
+  // const tourBookExists = !localStorage.getItem("tourBook");
+
+  // const handleUser = () => {
+  //   if (!localStorage.getItem("tourBook")) {
+  //     navigate("/");
+  //   }
+  //   navigate("/Waiting");
+  // };
+
+  // // useEffect(() => {
+  // //   if (!tourBookExists) {
+  // //     navigate("/");
+  // //   }
+  // // }, [tourBookExists, navigate]);
 
   return (
     <>
@@ -64,7 +79,13 @@ function NavbarMenu() {
                 >
                   <NavDropdown title={<img src={User} alt="" />}>
                     <NavDropdown.Item href="/Profile">Profile</NavDropdown.Item>
-                    <NavDropdown.Item href="/Waiting">Pay</NavDropdown.Item>
+                    <NavDropdown.Item
+                      href={
+                        !localStorage.getItem("tourBook") ? "/" : "/Waiting"
+                      }
+                    >
+                      Pay
+                    </NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item onClick={handleLogout}>
                       Logout
