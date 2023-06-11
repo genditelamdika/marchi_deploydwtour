@@ -48,12 +48,12 @@ func (r *repositories) UpdateTransaction(status string, orderId int) (models.Tra
 	var transaction models.Transaction
 	r.db.Preload("Trip").First(&transaction, orderId)
 
-	// if status != transaction.Status && status == "success" {
-	//   var product models.Product
-	//   r.db.First(&product, transaction.Product.ID)
-	//   product.Qty = product.Qty - 1
-	//   r.db.Save(&product)
-	// }
+	if status != transaction.Status && status == "SUCCESS" {
+		var trip models.Trip
+		r.db.First(&trip, transaction.TripID)
+		trip.CurrentQty = trip.CurrentQty + transaction.Counterqty
+		r.db.Save(&trip)
+	}
 
 	transaction.Status = status
 	err := r.db.Save(&transaction).Error

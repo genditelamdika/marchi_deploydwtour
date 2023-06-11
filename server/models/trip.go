@@ -2,6 +2,7 @@ package models
 
 type Trip struct {
 	ID             int    `json:"id"`
+	CurrentQty     int    `json:"currentqty"`
 	Title          string `json:"title" gorm:"type:varchar(255)"`
 	Country        string `json:"country" gorm:"type:varchar(255)"`
 	Accomodation   string `json:"accomodation" gorm:"type:varchar(255)"`

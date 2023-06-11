@@ -140,26 +140,26 @@ func (h *handlerTransaction) Notification(c echo.Context) error {
 		if fraudStatus == "challenge" {
 			// TODO set transaction status on your database to 'challenge'
 			// e.g: 'Payment status challenged. Please take action on your Merchant Administration Portal
-			h.TransactionRepository.UpdateTransaction("pending", order_id)
+			h.TransactionRepository.UpdateTransaction("PENDING", order_id)
 		} else if fraudStatus == "accept" {
 			// TODO set transaction status on your database to 'success'
-			SendMail("success", transaction)
-			h.TransactionRepository.UpdateTransaction("success", order_id)
+			SendMail("SUCCESS", transaction)
+			h.TransactionRepository.UpdateTransaction("SUCCESS", order_id)
 		}
 	} else if transactionStatus == "settlement" {
-		// TODO set transaction status on your databaase to 'success'
-		SendMail("success", transaction)
-		h.TransactionRepository.UpdateTransaction("success", order_id)
+		// TODO set transaction status on your databaase to 'SUCCESS'
+		SendMail("SUCCESS", transaction)
+		h.TransactionRepository.UpdateTransaction("SUCCESS", order_id)
 	} else if transactionStatus == "deny" {
 		// TODO you can ignore 'deny', because most of the time it allows payment retries
 		// and later can become success
-		h.TransactionRepository.UpdateTransaction("failed", order_id)
-	} else if transactionStatus == "cancel" || transactionStatus == "expire" {
+		h.TransactionRepository.UpdateTransaction("FAILED", order_id)
+	} else if transactionStatus == "CANCEL" || transactionStatus == "expire" {
 		// TODO set transaction status on your databaase to 'failure'
-		h.TransactionRepository.UpdateTransaction("failed", order_id)
-	} else if transactionStatus == "pending" {
-		// TODO set transaction status on your databaase to 'pending' / waiting payment
-		h.TransactionRepository.UpdateTransaction("pending", order_id)
+		h.TransactionRepository.UpdateTransaction("FAILED", order_id)
+	} else if transactionStatus == "PENDING" {
+		// TODO set transaction status on your databaase to 'PENDING' / waiting payment
+		h.TransactionRepository.UpdateTransaction("PENDING", order_id)
 	}
 
 	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: notificationPayload})
@@ -167,7 +167,7 @@ func (h *handlerTransaction) Notification(c echo.Context) error {
 
 func SendMail(status string, transaction models.Transaction) {
 
-	if status != transaction.Status && (status == "success") {
+	if status != transaction.Status && (status == "SUCCEESS") {
 		var CONFIG_SMTP_HOST = "smtp.gmail.com"
 		var CONFIG_SMTP_PORT = 587
 		var CONFIG_SENDER_NAME = "DEWETOUR <demo.misaeltimpolas04@gmail.com>"

@@ -1,9 +1,9 @@
 package tripdto
 
 type TripResponse struct {
-	Id    int    `json:"id"`
-	Title string `json:"title" form:"title" grom:"type: varchar(255)"`
-
+	Id             int    `json:"id"`
+	CurrentQty     int    `json:"currentqty"`
+	Title          string `json:"title" form:"title" grom:"type: varchar(255)"`
 	Country        string `json:"country" form:"country" grom:"type: varchar(255)"`
 	Accomodation   string `json:"accomodation" form:"accomodation" grom:"type: varchar(255)"`
 	Transportation string `json:"transportation" form:"transportation" grom:"type: varchar(255)"`
