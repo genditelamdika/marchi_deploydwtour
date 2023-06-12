@@ -107,7 +107,7 @@ func (h *HandlerUser) UpdateUser(c echo.Context) error {
 		Password: c.FormValue("password"),
 		Phone:    c.FormValue("phone"),
 		Address:  c.FormValue("address"),
-		Image:    dataFile,
+		Image:    resp.SecureURL,
 	}
 
 	profile, err := h.UserRepository.GetUser(int(userID))
