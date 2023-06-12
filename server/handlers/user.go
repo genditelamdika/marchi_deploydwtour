@@ -102,7 +102,7 @@ func (h *HandlerUser) UpdateUser(c echo.Context) error {
 	}
 
 	request := usersdto.UpdateUserRequest{
-		Name:     c.FormValue("name"),
+		Name:     c.FormValue("fullname"),
 		Email:    c.FormValue("email"),
 		Password: c.FormValue("password"),
 		Phone:    c.FormValue("phone"),
@@ -132,7 +132,7 @@ func (h *HandlerUser) UpdateUser(c echo.Context) error {
 	}
 
 	if request.Image != "" {
-		profile.Image = request.Image
+		profile.Image = resp.SecureURL
 	}
 
 	data, err := h.UserRepository.UpdateUser(profile)
