@@ -102,7 +102,7 @@ func (h *HandlerUser) UpdateUser(c echo.Context) error {
 	}
 
 	request := usersdto.UpdateUserRequest{
-		Name:     c.FormValue("fullname"),
+		Fullname: c.FormValue("fullname"),
 		Email:    c.FormValue("email"),
 		Password: c.FormValue("password"),
 		Phone:    c.FormValue("phone"),
@@ -121,8 +121,8 @@ func (h *HandlerUser) UpdateUser(c echo.Context) error {
 	if request.Password != "" {
 		profile.Password, _ = bcrypt.PasswordHash(request.Password)
 	}
-	if request.Name != "" {
-		profile.Name = request.Name
+	if request.Fullname != "" {
+		profile.Name = request.Fullname
 	}
 	if request.Address != "" {
 		profile.Address = request.Address
@@ -140,7 +140,7 @@ func (h *HandlerUser) UpdateUser(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: convertResponse(data)})
+	return c.JSON(http.StatusOK, dto.SuccessResult{Code: http.StatusOK, Data: data})
 }
 
 func (h *HandlerUser) DeleteUser(c echo.Context) error {
