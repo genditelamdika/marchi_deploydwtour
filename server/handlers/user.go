@@ -83,6 +83,8 @@ func (h *HandlerUser) CreateUser(c echo.Context) error {
 func (h *HandlerUser) UpdateUser(c echo.Context) error {
 	dataFile := c.Get("dataFile").(string)
 	fmt.Println("this is data file", dataFile)
+	userLogin := c.Get("userLogin")
+	userID := userLogin.(jwt.MapClaims)["id"].(float64)
 
 	var ctx = context.Background()
 	var CLOUD_NAME = os.Getenv("CLOUD_NAME")
@@ -108,9 +110,7 @@ func (h *HandlerUser) UpdateUser(c echo.Context) error {
 		Image:    resp.SecureURL,
 	}
 
-	id, _ := strconv.Atoi(c.Param("id"))
-
-	profile, err := h.UserRepository.GetUser(id)
+	profile, err := h.UserRepository.GetUser(int(userID))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()})
 	}
