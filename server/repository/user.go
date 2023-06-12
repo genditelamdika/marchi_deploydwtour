@@ -12,6 +12,7 @@ type UseRepository interface {
 	CreateUser(user models.User) (models.User, error)
 	GetUser(ID int) (models.User, error)
 	DeleteUser(user models.User, ID int) (models.User, error)
+	UpdateUser(user models.User) (models.User, error)
 }
 
 // func Connection
@@ -42,6 +43,12 @@ func (r *repositories) GetUser(ID int) (models.User, error) {
 
 func (r *repositories) DeleteUser(user models.User, ID int) (models.User, error) {
 	err := r.db.Delete(&user, ID).Scan(&user).Error
+
+	return user, err
+}
+
+func (r *repositories) UpdateUser(user models.User) (models.User, error) {
+	err := r.db.Save(&user).Error
 
 	return user, err
 }

@@ -1,11 +1,9 @@
-import { Container, Card, Row, Col } from "react-bootstrap";
-import Data from "../../fakeData/DataDummy";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Card, Col, Container, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useCustomMutation, useCustomQuery } from "../../config/query";
-import { getTrip } from "../../utils/trip";
 import { deleteTrip } from "../../utils/admin";
-import Swal from "sweetalert2";
+import { getTrip } from "../../utils/trip";
 
 const IncomingTripContent = () => {
   const navigate = useNavigate();
@@ -17,19 +15,6 @@ const IncomingTripContent = () => {
   useEffect(() => {
     refetch();
   }, [deleteTripMutation.isSuccess]);
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteTripMutation.mutateAsync(id);
-      Swal.fire({
-        icon: "success",
-        title: "Trip Deleted",
-        text: "The trip has been successfully deleted.",
-      });
-    } catch (error) {
-      console.log(error, "error delete");
-    }
-  };
 
   return (
     <>
@@ -113,22 +98,6 @@ const IncomingTripContent = () => {
                         </Card.Text>
                       </div>
                     </Card.Body>
-                    <div>
-                      <button
-                        style={{
-                          width: "100%",
-                          border: "none",
-                          background: "#ab32f0",
-                          height: "28px",
-                          color: "whitesmoke",
-                          letterSpacing: "1.5px",
-                          fontWeight: "600",
-                        }}
-                        onClick={() => handleDelete(tour?.id)}
-                      >
-                        DELETE
-                      </button>
-                    </div>
                   </Card>
                 </Col>
               );

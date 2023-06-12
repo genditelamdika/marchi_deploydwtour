@@ -8,3 +8,12 @@ type CreateUserRequest struct {
 	Address  string `json:"address" form:"address"`
 	Role     string `json:"role" form:"role"`
 }
+
+type UpdateUserRequest struct {
+	Name     string `json:"name" form:"name"`
+	Email    string `json:"email" form:"email"`
+	Password string `json:"password" form:"password"`
+	Phone    string `json:"phone" form:"phone"`
+	Address  string `json:"address" form:"address" `
+	Image    string `json:"image" form:"image"`
+}

@@ -1,15 +1,8 @@
-import { Container, Pagination, Table } from "react-bootstrap";
+import { useState } from "react";
+import { Container, Table } from "react-bootstrap";
 import IconSearch from "../../assets/images/iconSearch.png";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import { Col, Row } from "react-bootstrap";
-import Icon from "../../assets/images/IconBooking.png";
-import Picture from "../../assets/images/Bank.png";
-import { useEffect, useState } from "react";
 import { useCustomQuery } from "../../config/query";
-import { TransactionList, transactionList } from "../../utils/admin";
-import { useQuery } from "react-query";
-import { API } from "../../config/api";
+import { transactionList } from "../../utils/admin";
 
 const IncomingTransaction = () => {
   // cek data
